@@ -17,6 +17,9 @@
 ## Componente Curricular
 **Projeto Integrador II**
 
+## Semestre
+**2 º Semestre/1 º Ano** 
+
 ## Professora Orientadora
 **Profa. Renata Antonia Tadeu Arantes**
 
