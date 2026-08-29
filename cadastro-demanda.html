@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro de Demanda</title>
+
+    <!-- Autor: Julia Guarnieri -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cadastro-demanda.css">
+</head>
+
+<body>
+
+    <header class="cabecalho">
+
+        <div class="logo">
+            <h1>Sistema de Demandas</h1>
+        </div>
+
+        <nav class="menu">
+            <a href="index.html">Login</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="demandas.html">Demandas</a>
+            <a href="cadastro-demanda.html">Nova Demanda</a>
+            <a href="detalhes-demanda.html">Detalhes</a>
+        </nav>
+
+    </header>
+
+    <main class="conteudo">
+
+        <section class="formulario-demanda">
+
+            <h2>Cadastro de Demanda</h2>
+
+            <p class="descricao-pagina">
+                Preencha as informações da demanda.
+            </p>
+
+            <form>
+
+                <div class="campo">
+                    <label for="titulo">Título da demanda</label>
+                    <input
+                        type="text"
+                        id="titulo"
+                        name="titulo"
+                        placeholder="Digite o título da demanda"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="descricao">Descrição</label>
+                    <textarea
+                        id="descricao"
+                        name="descricao"
+                        rows="5"
+                        placeholder="Descreva a demanda"
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="linha-campos">
+
+                    <div class="campo">
+                        <label for="tipo">Tipo da demanda</label>
+
+                        <select id="tipo" name="tipo" required>
+                            <option value="">Selecione</option>
+                            <option value="tarefa">Tarefa</option>
+                            <option value="defeito">Defeito</option>
+                            <option value="melhoria">Melhoria</option>
+                            <option value="documentacao">Documentação</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="projeto">Projeto associado</label>
+
+                        <select id="projeto" name="projeto" required>
+                            <option value="">Selecione</option>
+                            <option value="projeto-1">Projeto 1</option>
+                            <option value="projeto-2">Projeto 2</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="linha-campos">
+
+                    <div class="campo">
+                        <label for="prioridade">Prioridade</label>
+
+                        <select id="prioridade" name="prioridade" required>
+                            <option value="">Selecione</option>
+                            <option value="critica">Crítica</option>
+                            <option value="alta">Alta</option>
+                            <option value="media">Média</option>
+                            <option value="baixa">Baixa</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="responsavel">Responsável</label>
+
+                        <select id="responsavel" name="responsavel">
+                            <option value="">Não definido</option>
+                            <option value="usuario-1">Usuário 1</option>
+                            <option value="usuario-2">Usuário 2</option>
+                            <option value="usuario-3">Usuário 3</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="linha-campos">
+
+                    <div class="campo">
+                        <label for="status">Status</label>
+
+                        <select id="status" name="status" required>
+                            <option value="aberta" selected>Aberta</option>
+                            <option value="andamento">Em andamento</option>
+                            <option value="revisao">Em revisão</option>
+                            <option value="concluida">Concluída</option>
+                            <option value="cancelada">Cancelada</option>
+                        </select>
+
+                        <small>
+                            Novas demandas devem iniciar com o status Aberta.
+                        </small>
+                    </div>
+
+                    <div class="campo">
+                        <label for="prazo">Prazo de finalização</label>
+
+                        <input
+                            type="date"
+                            id="prazo"
+                            name="prazo"
+                            required
+                        >
+
+                        <small>
+                            O prazo será validado pelo sistema.
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="informacoes-automaticas">
+
+                    <div class="informacao">
+                        <span>Data de criação</span>
+                        <strong>Registrada automaticamente pelo sistema</strong>
+                    </div>
+
+                    <div class="informacao">
+                        <span>Última atualização</span>
+                        <strong>Atualizada automaticamente pelo sistema</strong>
+                    </div>
+
+                </div>
+
+                <div class="acoes-formulario">
+
+                    <a
+                        href="demandas.html"
+                        class="botao botao-cancelar"
+                    >
+                        Cancelar
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="botao botao-salvar"
+                    >
+                        Salvar demanda
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
