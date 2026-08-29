@@ -1,0 +1,62 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6fa;
+    color: #333;
+}
+
+.cabecalho {
+    background-color: #1f2937;
+    color: white;
+    padding: 20px 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo h1 {
+    font-size: 22px;
+}
+
+.menu {
+    display: flex;
+    gap: 25px;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.conteudo {
+    width: 90%;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+.botao {
+    display: inline-block;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.botao-salvar {
+    background-color: #2563eb;
+    color: white;
+}
+
+.botao-cancelar {
+    background-color: #e5e7eb;
+    color: #333;
+}

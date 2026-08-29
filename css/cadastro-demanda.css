@@ -1,0 +1,92 @@
+/*
+    Autor: Julia Guarnieri
+    Arquivo: cadastro-demanda.css
+    Tela: Cadastro/Edição de Demanda
+    Projeto Integrador II - Engenharia de Software - 2026
+*/
+
+.formulario-demanda {
+    background-color: white;
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.formulario-demanda h2 {
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.descricao-pagina {
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+.campo label {
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+}
+
+.campo textarea {
+    resize: vertical;
+}
+.linha-campos {
+    display: flex;
+    gap: 20px;
+}
+
+.informacoes-automaticas {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.informacao {
+    flex: 1;
+    padding: 15px;
+    background-color: #f5f6fa;
+    border-radius: 6px;
+}
+
+.informacao span {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.informacao strong {
+    font-size: 14px;
+    font-weight: normal;
+    color: #666;
+}
+
+.campo small {
+    margin-top: 5px;
+    color: #666;
+}
+
+.acoes-formulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
