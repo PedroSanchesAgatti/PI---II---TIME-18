@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Demandas</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/demandas.css">
+</head>
+<body>
+    <header class="cabecalho">
+        <div class="logo">
+            <h1>Sistema de Demandas</h1>
+        </div>
+
+        <nav class="menu">
+            <a href="index.html">Login</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="demandas.html">Demandas</a>
+            <a href="cadastro-demanda.html">Nova Demanda</a>
+        </nav>
+    </header>
+
+    <main class="conteudo">
+
+        <h2>Listagem de Demandas</h2>
+
+        <section class="filtros">
+
+            <div class="campo">
+                <label>Status</label>
+                <select>
+                    <option value="">Todos</option>
+                    <option value="aberta">Aberta</option>
+                    <option value="andamento">Em andamento</option>
+                    <option value="revisao">Em revisão</option>
+                    <option value="concluida">Concluída</option>
+                    <option value="cancelada">Cancelada</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label>Prioridade</label>
+                <select>
+                    <option value="">Todas</option>
+                    <option value="critica">Crítica</option>
+                    <option value="alta">Alta</option>
+                    <option value="media">Média</option>
+                    <option value="baixa">Baixa</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label>Buscar</label>
+                <input type="text" placeholder="Buscar por título ou descrição">
+            </div>
+
+            <button class="botao botao-salvar">Filtrar</button>
+
+        </section>
+        <section class="lista-demandas">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Tipo</th>
+                        <th>Prioridade</th>
+                        <th>Status</th>
+                        <th>Projeto</th>
+                        <th>Responsável</th>
+                        <th>Criação</th>
+                        <th>Prazo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Corrigir login</td>
+                        <td>Defeito</td>
+                        <td>Alta</td>
+                        <td>Aberta</td>
+                        <td>Projeto 1</td>
+                        <td>Usuário 2</td>
+                        <td>10/02/2026</td>
+                        <td>20/02/2026</td>
+                        <td>
+                            <a href="detalhes-demanda.html">Detalhes</a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Implementar dashboard</td>
+                        <td>Tarefa</td>
+                        <td>Média</td>
+                        <td>Em andamento</td>
+                        <td>Projeto 2</td>
+                        <td>Usuário 3</td>
+                        <td>05/02/2026</td>
+                        <td>18/02/2026</td>
+                        <td>
+                            <a href="detalhes-demanda.html">Detalhes</a>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+</body>
+</html>
