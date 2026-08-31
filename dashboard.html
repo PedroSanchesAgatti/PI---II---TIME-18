@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">
+
+</head>
+
+<body>
+
+<header class="cabecalho">
+
+    <div class="logo">
+        <h1>Sistema de Demandas</h1>
+    </div>
+
+    <nav class="menu">
+        <a href="index.html">Login</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="demandas.html">Demandas</a>
+        <a href="cadastro-demanda.html">Nova Demanda</a>
+        <a href="detalhes-demanda.html">Detalhes</a>
+    </nav>
+
+</header>
+
+
+<main class="conteudo">
+
+    <h2>Dashboard</h2>
+
+    <p class="descricao-pagina">
+        Visão geral das demandas cadastradas no sistema.
+    </p>
+
+
+    <!-- RESUMO DAS DEMANDAS -->
+
+    <section class="resumo">
+
+        <div class="card">
+
+            <span>Total de demandas</span>
+
+            <strong>2</strong>
+
+        </div>
+
+
+        <div class="card">
+
+            <span>Demandas abertas</span>
+
+            <strong>1</strong>
+
+        </div>
+
+
+        <div class="card">
+
+            <span>Em andamento</span>
+
+            <strong>1</strong>
+
+        </div>
+
+
+        <div class="card">
+
+            <span>Concluídas</span>
+
+            <strong>0</strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- INFORMAÇÕES -->
+
+    <section class="painel-dashboard">
+
+
+        <!-- DEMANDAS RECENTES -->
+
+        <div class="bloco-dashboard">
+
+            <h3>Demandas Recentes</h3>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Título</th>
+                        <th>Prioridade</th>
+                        <th>Status</th>
+                        <th>Responsável</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Corrigir login</td>
+
+                        <td>
+                            <span class="prioridade-alta">
+                                Alta
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="status-aberta">
+                                Aberta
+                            </span>
+                        </td>
+
+                        <td>Usuário 2</td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>Implementar dashboard</td>
+
+                        <td>
+                            <span class="prioridade-media">
+                                Média
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="status-andamento">
+                                Em andamento
+                            </span>
+                        </td>
+
+                        <td>Usuário 3</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- RESUMO POR PRIORIDADE -->
+
+        <div class="bloco-dashboard">
+
+            <h3>Demandas por Prioridade</h3>
+
+            <div class="item-prioridade">
+
+                <span>Crítica</span>
+
+                <strong>0</strong>
+
+            </div>
+
+
+            <div class="item-prioridade">
+
+                <span>Alta</span>
+
+                <strong>1</strong>
+
+            </div>
+
+
+            <div class="item-prioridade">
+
+                <span>Média</span>
+
+                <strong>1</strong>
+
+            </div>
+
+
+            <div class="item-prioridade">
+
+                <span>Baixa</span>
+
+                <strong>0</strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ATALHOS -->
+
+    <section class="atalhos">
+
+        <h3>Acesso rápido</h3>
+
+        <div class="botoes-dashboard">
+
+            <a
+                href="cadastro-demanda.html"
+                class="botao botao-salvar"
+            >
+                Nova Demanda
+            </a>
+
+            <a
+                href="demandas.html"
+                class="botao botao-cancelar"
+            >
+                Ver Demandas
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>
