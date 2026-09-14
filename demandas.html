@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listagem de Demandas</title>
-
+    <!--Autor: Larissa Quito-->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/demandas.css">
+    <script src="js/demandas.js" defer></script>
 </head>
 <body>
     <header class="cabecalho">
@@ -30,7 +31,7 @@
 
             <div class="campo">
                 <label>Status</label>
-                <select>
+                <select id="status">
                     <option value="">Todos</option>
                     <option value="aberta">Aberta</option>
                     <option value="andamento">Em andamento</option>
@@ -38,22 +39,25 @@
                     <option value="concluida">Concluída</option>
                     <option value="cancelada">Cancelada</option>
                 </select>
+                <div id="erroStatus" class="text-danger small"></div>
             </div>
 
             <div class="campo">
                 <label>Prioridade</label>
-                <select>
+                <select id="prioridade">
                     <option value="">Todas</option>
                     <option value="critica">Crítica</option>
                     <option value="alta">Alta</option>
                     <option value="media">Média</option>
                     <option value="baixa">Baixa</option>
                 </select>
+                <div id="erroPrioridade" class="text-danger small"></div>
             </div>
 
             <div class="campo">
                 <label>Buscar</label>
-                <input type="text" placeholder="Buscar por título ou descrição">
+                <input id="busca" type="text" placeholder="Buscar por título ou descrição">
+                <div id="erroBusca" class="text-danger small"></div>
             </div>
 
             <button class="botao botao-salvar">Filtrar</button>
