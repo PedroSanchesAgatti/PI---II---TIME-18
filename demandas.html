@@ -11,10 +11,7 @@
 </head>
 <body>
     <header class="cabecalho">
-        <div class="logo">
-            <h1>Sistema de Demandas</h1>
-        </div>
-
+        <div class="logo"><h1>Sistema de Demandas</h1></div>
         <nav class="menu">
             <a href="login.html">Login</a>
             <a href="dashboard.html">Dashboard</a>
@@ -24,47 +21,75 @@
     </header>
 
     <main class="conteudo">
-
         <h2>Listagem de Demandas</h2>
 
         <section class="filtros">
-
             <div class="campo">
-                <label>Status</label>
+                <label for="status">Status</label>
                 <select id="status">
                     <option value="">Todos</option>
-                    <option value="aberta">Aberta</option>
-                    <option value="andamento">Em andamento</option>
-                    <option value="revisao">Em revisão</option>
-                    <option value="concluida">Concluída</option>
-                    <option value="cancelada">Cancelada</option>
+                    <option value="Aberta">Aberta</option>
+                    <option value="Em andamento">Em andamento</option>
+                    <option value="Em revisão">Em revisão</option>
+                    <option value="Concluída">Concluída</option>
+                    <option value="Cancelada">Cancelada</option>
                 </select>
                 <div id="erroStatus" class="text-danger small"></div>
             </div>
 
             <div class="campo">
-                <label>Prioridade</label>
+                <label for="prioridade">Prioridade</label>
                 <select id="prioridade">
                     <option value="">Todas</option>
-                    <option value="critica">Crítica</option>
-                    <option value="alta">Alta</option>
-                    <option value="media">Média</option>
-                    <option value="baixa">Baixa</option>
+                    <option value="Crítica">Crítica</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Média">Média</option>
+                    <option value="Baixa">Baixa</option>
                 </select>
                 <div id="erroPrioridade" class="text-danger small"></div>
             </div>
 
             <div class="campo">
-                <label>Buscar</label>
+                <label for="tipo">Tipo</label>
+                <select id="tipo">
+                    <option value="">Todos</option>
+                    <option value="Tarefa">Tarefa</option>
+                    <option value="Defeito">Defeito</option>
+                    <option value="Melhoria">Melhoria</option>
+                    <option value="Documentação">Documentação</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="busca">Buscar</label>
                 <input id="busca" type="text" placeholder="Buscar por título ou descrição">
                 <div id="erroBusca" class="text-danger small"></div>
             </div>
 
-            <button class="botao botao-salvar">Filtrar</button>
+            <div class="campo">
+                <label for="ordenarPor">Ordenar por</label>
+                <select id="ordenarPor">
+                    <option value="dataCriacao">Data de criação</option>
+                    <option value="prazo">Prazo</option>
+                    <option value="prioridade">Prioridade</option>
+                    <option value="status">Status</option>
+                </select>
+            </div>
 
+            <div class="campo">
+                <label for="ordem">Ordem</label>
+                <select id="ordem">
+                    <option value="desc">Decrescente</option>
+                    <option value="asc">Crescente</option>
+                </select>
+            </div>
+
+            <button class="botao botao-salvar" id="botao-filtrar">Filtrar</button>
         </section>
-        <section class="lista-demandas">
 
+        <p id="mensagem-lista" role="status" aria-live="polite"></p>
+
+        <section class="lista-demandas">
             <table>
                 <thead>
                     <tr>
@@ -79,41 +104,9 @@
                         <th>Ações</th>
                     </tr>
                 </thead>
-
-                <tbody>
-                    <tr>
-                        <td>Corrigir login</td>
-                        <td>Defeito</td>
-                        <td>Alta</td>
-                        <td>Aberta</td>
-                        <td>Projeto 1</td>
-                        <td>Usuário 2</td>
-                        <td>10/02/2026</td>
-                        <td>20/02/2026</td>
-                        <td>
-                            <a href="detalhes-demanda.html">Detalhes</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Implementar dashboard</td>
-                        <td>Tarefa</td>
-                        <td>Média</td>
-                        <td>Em andamento</td>
-                        <td>Projeto 2</td>
-                        <td>Usuário 3</td>
-                        <td>05/02/2026</td>
-                        <td>18/02/2026</td>
-                        <td>
-                            <a href="detalhes-demanda.html">Detalhes</a>
-                        </td>
-                    </tr>
-                </tbody>
-
+                <tbody id="tabela-demandas"></tbody>
             </table>
-
         </section>
-
     </main>
 </body>
 </html>

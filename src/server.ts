@@ -2,14 +2,16 @@
 import express, { NextFunction, Request, Response } from "express";
 import path from "node:path";
 import loginRouter from "./routes/login";
+import demandasRouter from "./routes/demandas";
+
 
 const app = express();
 const porta = Number(process.env.PORT) || 3000;
 const raizProjeto = process.cwd();
 
-
+app.use(express.json());
 app.use(loginRouter);
-
+app.use(demandasRouter);
 app.get("/", (_req, res) => {
     res.sendFile(path.join(raizProjeto, "login.html"));
 });
