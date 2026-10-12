@@ -3,6 +3,7 @@ import express, { NextFunction, Request, Response } from "express";
 import path from "node:path";
 import loginRouter from "./routes/login";
 import demandasRouter from "./routes/demandas";
+import dashboardRouter from "./routes/dashboard";
 
 
 const app = express();
@@ -10,6 +11,7 @@ const porta = Number(process.env.PORT) || 3000;
 const raizProjeto = process.cwd();
 
 app.use(express.json());
+app.use(dashboardRouter); 
 app.use(loginRouter);
 app.use(demandasRouter);
 app.get("/", (_req, res) => {
