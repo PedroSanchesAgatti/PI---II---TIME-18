@@ -31,21 +31,6 @@
 
             <form id="login-form">
 
-                <!-- Usuário -->
-                <div class="campo">
-
-                    <label for="user">Usuário</label>
-
-                    <input
-                        type="text"
-                        id="user"
-                        name="user"
-                        placeholder="Digite o usuário"
-                        required
-                    >
-
-                </div>
-
                 <!-- E-mail -->
                 <div class="campo">
 
@@ -77,6 +62,8 @@
                     <button
                         type="button"
                         id="mostrarSenha"
+                        aria-label="Mostrar senha"
+                        aria-pressed="false"
                     >
                         Mostrar senha
                     </button>
@@ -86,6 +73,7 @@
                     <small id="forcaSenha">Força da senha: -</small>
 
                 </div>
+                <p id="mensagem-login" role="status" aria-live="polite" hidden></p>
 
                 <!-- Botão -->
                 <div class="acoes-formulario">
@@ -93,8 +81,9 @@
                     <button
                         type="submit"
                         class="botao botao-salvar"
+                        id="botao-entrar"
                     >
-                        Logar
+                        Entrar
                     </button>
 
                 </div>
@@ -105,7 +94,7 @@
 
     </main>
 
-    <script src="js/login.js"></script>
+    <script src="js/login.js" defer></script>
 
 </body>
 

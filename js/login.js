@@ -7,8 +7,10 @@
 console.log("JS carregado!");
 
 const formulario = document.querySelector("#login-form");
-const campoUsuario = document.querySelector("#user");
 const campoSenha = document.querySelector("#password");
+const mensagemLogin = document.querySelector("#mensagem-login");
+const botaoEntrar = document.querySelector("#botao-entrar");
+
 
 
 // ============================================================
@@ -27,57 +29,19 @@ const campoEmail = document.querySelector("#email");
 // Validação do formulário no envio
 // ============================================================
 
-formulario.addEventListener("submit", function (evento) {
+formulario.addEventListener("submit", async function (evento) {
 
     evento.preventDefault();
 
     limparErros();
 
-    const usuario = campoUsuario.value.trim();
     const senha = campoSenha.value;
     const email = campoEmail.value.trim();
 
     let valido = true;
 
 
-    // ========================================================
-    // AUTORIA: Pedro Henrique Sanches
-    // Validação básica do usuário
-    // ========================================================
 
-    if (usuario.length === 0) {
-
-        campoUsuario.setCustomValidity("Informe o usuário.");
-        campoUsuario.classList.add("invalido");
-        valido = false;
-
-    } else if (usuario.length < 3) {
-
-        campoUsuario.setCustomValidity(
-            "O usuário deve ter ao menos 3 caracteres."
-        );
-
-        campoUsuario.classList.add("invalido");
-        valido = false;
-
-    } else if (usuario.length > 30) {
-
-        campoUsuario.setCustomValidity(
-            "O usuário deve ter no máximo 30 caracteres."
-        );
-
-        campoUsuario.classList.add("invalido");
-        valido = false;
-
-    } else if (!/^[A-Za-zÀ-ÿ0-9._-]+$/.test(usuario)) {
-
-        campoUsuario.setCustomValidity(
-            "O usuário contém caracteres inválidos."
-        );
-
-        campoUsuario.classList.add("invalido");
-        valido = false;
-    }
 
 
     // ========================================================
@@ -108,28 +72,11 @@ formulario.addEventListener("submit", function (evento) {
     // ========================================================
 
     if (senha.length === 0) {
-
         campoSenha.setCustomValidity("Informe a senha.");
         campoSenha.classList.add("invalido");
         valido = false;
+    }
 
-    } else if (senha.length < 8) {
-
-        campoSenha.setCustomValidity(
-            "A senha deve ter ao menos 8 caracteres."
-        );
-
-        campoSenha.classList.add("invalido");
-        valido = false;
-
-    } else if (senha.length > 64) {
-
-        campoSenha.setCustomValidity(
-            "A senha deve ter no máximo 64 caracteres."
-        );
-
-        campoSenha.classList.add("invalido");
-        valido = false;
 
 
     // ========================================================
@@ -137,7 +84,7 @@ formulario.addEventListener("submit", function (evento) {
     // Novas regras de segurança para a senha
     // ========================================================
 
-    } else if (!/[A-Z]/.test(senha)) {
+    else if (!/[A-Z]/.test(senha)) {
 
         campoSenha.setCustomValidity(
             "A senha deve conter pelo menos uma letra maiúscula."
@@ -182,11 +129,7 @@ formulario.addEventListener("submit", function (evento) {
 
     if (!valido) {
 
-        if (!campoUsuario.checkValidity()) {
-
-            campoUsuario.reportValidity();
-
-        } else if (!campoEmail.checkValidity()) {
+        if (!campoEmail.checkValidity()) {
 
             campoEmail.reportValidity();
 
@@ -204,8 +147,61 @@ formulario.addEventListener("submit", function (evento) {
     // Redirecionamento após login válido
     // ========================================================
 
-    console.log("Login válido!");
-    window.location.href = "dashboard.html";
+    botaoEntrar.disabled = true;
+    botaoEntrar.textContent = "Entrando...";
+
+    try {
+        const resposta = await fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                email: email,
+                senha: senha
+            })
+        });
+
+        let dados = {};
+        try {
+            dados = await resposta.json();
+        } catch {
+            // A resposta pode não conter JSON.
+        }
+
+        if (resposta.status === 400) {
+            mensagemLogin.textContent =
+                dados.mensagem || dados.message || "Confira os dados informados.";
+            mensagemLogin.hidden = false;
+            return;
+        }
+
+        if (resposta.status === 401) {
+            mensagemLogin.textContent =
+                dados.mensagem || dados.message || "E-mail ou senha incorretos.";
+            mensagemLogin.hidden = false;
+            return;
+        }
+
+        if (!resposta.ok) {
+            mensagemLogin.textContent =
+                dados.mensagem || dados.message || "Não foi possível entrar. Tente novamente.";
+            mensagemLogin.hidden = false;
+            return;
+        }
+
+        window.location.href = "dashboard.html";
+    } catch (erro) {
+        mensagemLogin.textContent =
+            "Não foi possível conectar ao servidor. Verifique se a API está em execução.";
+        mensagemLogin.hidden = false;
+        console.error("Erro ao fazer login:", erro);
+    } finally {
+        botaoEntrar.disabled = false;
+        botaoEntrar.textContent = "Entrar";
+    }
+
 });
 
 
@@ -214,11 +210,7 @@ formulario.addEventListener("submit", function (evento) {
 // Limpeza dos erros enquanto o usuário digita
 // ============================================================
 
-campoUsuario.addEventListener("input", function () {
 
-    campoUsuario.setCustomValidity("");
-    campoUsuario.classList.remove("invalido");
-});
 
 campoSenha.addEventListener("input", function () {
 
@@ -343,11 +335,11 @@ campoSenha.addEventListener("input", function () {
 
 function limparErros() {
 
-    campoUsuario.setCustomValidity("");
+   
     campoSenha.setCustomValidity("");
     campoEmail.setCustomValidity("");
 
-    campoUsuario.classList.remove("invalido");
+    
     campoSenha.classList.remove("invalido");
     campoEmail.classList.remove("invalido");
 }
