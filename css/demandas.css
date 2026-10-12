@@ -1,0 +1,45 @@
+.filtros {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+}
+.conteudo h2{
+    margin-bottom: 20px;
+}
+
+.lista-demandas table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.lista-demandas th,
+.lista-demandas td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.lista-demandas th {
+    background: #1f2937;
+    color: white;
+}
+
+.lista-demandas tr:hover {
+    background: #f0f0f0;
+}
+
+.filtros .campo input{
+    width: 190px;
+}

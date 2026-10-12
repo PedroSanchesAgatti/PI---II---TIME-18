@@ -1,0 +1,56 @@
+.detalhes-demanda {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.detalhes-demanda h2 {
+    margin-bottom: 10px;
+}
+
+.descricao-pagina {
+    margin-bottom: 25px;
+}
+
+.informacoes-demanda {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.linha-informacoes {
+    display: flex;
+    gap: 20px;
+}
+
+.linha-informacoes .informacao {
+    flex: 1;
+}
+
+.informacao {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.informacao span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.informacao strong {
+    font-weight: normal;
+}
+
+.acoes-formulario {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    gap: 10px;
+}
+
+.botao {
+    text-decoration: none;
+}
