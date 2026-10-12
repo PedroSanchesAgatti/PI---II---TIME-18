@@ -1,4 +1,4 @@
-```javascript
+javascript
 /*
     Autor: Hyan Victor
     Arquivo: dashboard.js
@@ -140,4 +140,3 @@ linhas.forEach(function (linha, indice) {
 console.log(
     "Dashboard carregado e validado com JavaScript."
 );
-```
