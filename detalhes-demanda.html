@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -14,7 +15,6 @@
 <body>
 
     <header class="cabecalho">
-
         <div class="logo">
             <h1>Sistema de Demandas</h1>
         </div>
@@ -24,9 +24,7 @@
             <a href="dashboard.html">Dashboard</a>
             <a href="demandas.html">Demandas</a>
             <a href="cadastro-demanda.html">Nova Demanda</a>
-            <a href="detalhes-demanda.html">Detalhes</a>
         </nav>
-
     </header>
 
     <main class="conteudo">
@@ -36,35 +34,35 @@
             <h2>Detalhes da Demanda</h2>
 
             <p class="descricao-pagina">
-                Visualização das informações da demanda.
+                Visualização das informações da demanda selecionada.
             </p>
 
-            <div class="informacoes-demanda">
+            <p id="mensagem-demanda" role="status">
+                Carregando informações da demanda...
+            </p>
+
+            <div class="informacoes-demanda" id="informacoes-demanda" hidden>
 
                 <div class="informacao">
                     <span>Título</span>
-                    <strong>Corrigir login</strong>
+                    <strong id="titulo"></strong>
                 </div>
 
                 <div class="informacao">
                     <span>Descrição</span>
-                    <strong>
-                        Corrigir o problema encontrado no sistema de login,
-                        garantindo que os usuários consigam acessar o sistema
-                        corretamente.
-                    </strong>
+                    <strong id="descricao"></strong>
                 </div>
 
                 <div class="linha-informacoes">
 
                     <div class="informacao">
                         <span>Tipo da demanda</span>
-                        <strong>Defeito</strong>
+                        <strong id="tipo"></strong>
                     </div>
 
                     <div class="informacao">
                         <span>Projeto associado</span>
-                        <strong>Projeto 1</strong>
+                        <strong id="projeto"></strong>
                     </div>
 
                 </div>
@@ -73,12 +71,12 @@
 
                     <div class="informacao">
                         <span>Prioridade</span>
-                        <strong>Alta</strong>
+                        <strong id="prioridade"></strong>
                     </div>
 
                     <div class="informacao">
                         <span>Status</span>
-                        <strong>Aberta</strong>
+                        <strong id="status"></strong>
                     </div>
 
                 </div>
@@ -87,12 +85,12 @@
 
                     <div class="informacao">
                         <span>Responsável</span>
-                        <strong>Usuário 2</strong>
+                        <strong id="responsavel"></strong>
                     </div>
 
                     <div class="informacao">
                         <span>Prazo de finalização</span>
-                        <strong>20/02/2026</strong>
+                        <strong id="prazo"></strong>
                     </div>
 
                 </div>
@@ -101,12 +99,12 @@
 
                     <div class="informacao">
                         <span>Data de criação</span>
-                        <strong>10/02/2026</strong>
+                        <strong id="data-criacao"></strong>
                     </div>
 
                     <div class="informacao">
                         <span>Última atualização</span>
-                        <strong>Registrada automaticamente pelo sistema</strong>
+                        <strong id="data-atualizacao"></strong>
                     </div>
 
                 </div>
@@ -115,17 +113,12 @@
 
             <div class="acoes-formulario">
 
-                <a
-                    href="demandas.html"
-                    class="botao botao-cancelar"
-                >
+                <a href="demandas.html" class="botao botao-cancelar">
                     Voltar para demandas
                 </a>
 
-                <a
-                    href="cadastro-demanda.html"
-                    class="botao botao-salvar"
-                >
+                <a id="botao-editar" href="cadastro-demanda.html"
+                   class="botao botao-salvar">
                     Editar demanda
                 </a>
 
@@ -135,6 +128,7 @@
 
     </main>
 
-</body>
+    <script src="js/detalhes-demanda.js"></script>
 
+</body>
 </html>
