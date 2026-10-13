@@ -3,12 +3,14 @@
     "target": "ES2022",
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "rootDir": "backend/src",
-    "outDir": "dist",
+    "rootDir": "./backend/src",
+    "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["backend/src/**/*.ts"]
+  "include": [
+    "backend/src/**/*.ts"
+  ]
 }
