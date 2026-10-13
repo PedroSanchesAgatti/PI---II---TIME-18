@@ -4,7 +4,7 @@
 */
 
 import { Router } from "express";
-import { demandas } from "../dados";
+import { demandas } from "../data/dados";
 
 const router = Router();
 
