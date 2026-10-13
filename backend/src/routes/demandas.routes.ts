@@ -608,6 +608,169 @@ router.post(
             .json(novoComentario);
     }
 );
+router.put("/demandas/:id", (req, res) => {
 
+    const id = Number(req.params.id);
+
+    if (
+        !Number.isInteger(id) ||
+        id <= 0
+    ) {
+        return res.status(400).json({
+            mensagem: "ID da demanda inválido."
+        });
+    }
+
+
+    const indice = demandas.findIndex(
+        d => d.id === id
+    );
+
+
+    if (indice === -1) {
+        return res.status(404).json({
+            mensagem: "Demanda não encontrada."
+        });
+    }
+
+
+    const {
+        titulo,
+        descricao,
+        tipo,
+        prioridade,
+        projetoId,
+        responsavelId,
+        prazo
+    } = req.body;
+
+
+    if (
+        !titulo ||
+        !descricao ||
+        !tipo ||
+        !prioridade ||
+        !projetoId
+    ) {
+        return res.status(400).json({
+            mensagem:
+                "Título, descrição, tipo, prioridade e projeto são obrigatórios."
+        });
+    }
+
+
+    const tiposPermitidos = [
+        "Tarefa",
+        "Defeito",
+        "Melhoria",
+        "Documentação"
+    ];
+
+
+    if (!tiposPermitidos.includes(tipo)) {
+        return res.status(400).json({
+            mensagem: "Tipo de demanda inválido."
+        });
+    }
+
+
+    const prioridadesPermitidas = [
+        "Crítica",
+        "Alta",
+        "Média",
+        "Baixa"
+    ];
+
+
+    if (!prioridadesPermitidas.includes(prioridade)) {
+        return res.status(400).json({
+            mensagem: "Prioridade inválida."
+        });
+    }
+
+
+    const projetoExiste = projetos.some(
+        p => p.id === Number(projetoId)
+    );
+
+
+    if (!projetoExiste) {
+        return res.status(400).json({
+            mensagem: "Projeto informado não existe."
+        });
+    }
+
+
+    if (
+        responsavelId != null &&
+        responsavelId !== ""
+    ) {
+
+        const usuarioExiste = usuarios.some(
+            u => u.id === Number(responsavelId)
+        );
+
+
+        if (!usuarioExiste) {
+            return res.status(400).json({
+                mensagem: "Responsável informado não existe."
+            });
+        }
+    }
+
+
+    if (
+        prazo &&
+        !/^\d{4}-\d{2}-\d{2}$/.test(
+            String(prazo)
+        )
+    ) {
+        return res.status(400).json({
+            mensagem: "Prazo deve estar no formato AAAA-MM-DD."
+        });
+    }
+
+
+    const demandaAtual = demandas[indice];
+
+
+    const demandaAtualizada: Demanda = {
+
+        ...demandaAtual,
+
+        titulo: String(titulo).trim(),
+
+        descricao: String(descricao).trim(),
+
+        tipo,
+
+        prioridade,
+
+        projetoId: Number(projetoId),
+
+        responsavelId:
+            responsavelId
+                ? Number(responsavelId)
+                : null,
+
+        prazo:
+            prazo
+                ? String(prazo)
+                : null,
+
+        dataAtualizacao:
+            new Date().toISOString()
+    };
+
+
+    demandas[indice] = demandaAtualizada;
+
+
+    return res.status(200).json({
+        mensagem: "Demanda atualizada com sucesso.",
+        demanda: demandaAtualizada
+    });
+
+});
 
 export default router;

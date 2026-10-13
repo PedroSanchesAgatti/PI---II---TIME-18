@@ -3,30 +3,23 @@
 // AUTORIA: Pedro Henrique Sanches
 // Estrutura inicial do formulário e validações básicas
 // ============================================================
+console.log("login.js carregado!");
 
-console.log("JS carregado!");
+const API_URL = "http://localhost:3000";
 
 const formulario = document.querySelector("#login-form");
 const campoSenha = document.querySelector("#password");
+const campoEmail = document.querySelector("#email");
 const mensagemLogin = document.querySelector("#mensagem-login");
 const botaoEntrar = document.querySelector("#botao-entrar");
-
-
-
-// ============================================================
-// AUTORIA: Júlia Guarnieri
-// Elementos adicionados para novas funcionalidades
-// ============================================================
 
 const botaoMostrarSenha = document.querySelector("#mostrarSenha");
 const contadorSenha = document.querySelector("#contadorSenha");
 const forcaSenha = document.querySelector("#forcaSenha");
-const campoEmail = document.querySelector("#email");
 
 
 // ============================================================
-// AUTORIA: Pedro Henrique Sanches
-// Validação do formulário no envio
+// ENVIO DO LOGIN
 // ============================================================
 
 formulario.addEventListener("submit", async function (evento) {
@@ -35,24 +28,18 @@ formulario.addEventListener("submit", async function (evento) {
 
     limparErros();
 
-    const senha = campoSenha.value;
     const email = campoEmail.value.trim();
+    const senha = campoSenha.value;
 
     let valido = true;
 
 
-
-
-
-    // ========================================================
-    // AUTORIA: Júlia Guarnieri
-    // Validação do e-mail
-    // ========================================================
-
+    // E-MAIL
     if (email.length === 0) {
 
         campoEmail.setCustomValidity("Informe o e-mail.");
         campoEmail.classList.add("invalido");
+
         valido = false;
 
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -62,79 +49,29 @@ formulario.addEventListener("submit", async function (evento) {
         );
 
         campoEmail.classList.add("invalido");
+
         valido = false;
     }
 
 
-    // ========================================================
-    // AUTORIA: Pedro Henrique Sanches
-    // Validação básica da senha
-    // ========================================================
-
+    // SENHA
     if (senha.length === 0) {
-        campoSenha.setCustomValidity("Informe a senha.");
+
+        campoSenha.setCustomValidity(
+            "Informe a senha."
+        );
+
         campoSenha.classList.add("invalido");
+
         valido = false;
     }
 
-
-
-    // ========================================================
-    // AUTORIA: Júlia Guarnieri
-    // Novas regras de segurança para a senha
-    // ========================================================
-
-    else if (!/[A-Z]/.test(senha)) {
-
-        campoSenha.setCustomValidity(
-            "A senha deve conter pelo menos uma letra maiúscula."
-        );
-
-        campoSenha.classList.add("invalido");
-        valido = false;
-
-    } else if (!/[a-z]/.test(senha)) {
-
-        campoSenha.setCustomValidity(
-            "A senha deve conter pelo menos uma letra minúscula."
-        );
-
-        campoSenha.classList.add("invalido");
-        valido = false;
-
-    } else if (!/[0-9]/.test(senha)) {
-
-        campoSenha.setCustomValidity(
-            "A senha deve conter pelo menos um número."
-        );
-
-        campoSenha.classList.add("invalido");
-        valido = false;
-
-    } else if (!/[!@#$%^&*]/.test(senha)) {
-
-        campoSenha.setCustomValidity(
-            "A senha deve conter pelo menos um caractere especial."
-        );
-
-        campoSenha.classList.add("invalido");
-        valido = false;
-    }
-
-
-    // ========================================================
-    // AUTORIA: Pedro Henrique Sanches
-    // Impede o acesso caso existam erros
-    // ========================================================
 
     if (!valido) {
 
         if (!campoEmail.checkValidity()) {
-
             campoEmail.reportValidity();
-
         } else {
-
             campoSenha.reportValidity();
         }
 
@@ -142,62 +79,73 @@ formulario.addEventListener("submit", async function (evento) {
     }
 
 
-    // ========================================================
-    // AUTORIA: Pedro Henrique Sanches
-    // Redirecionamento após login válido
-    // ========================================================
+    mensagemLogin.hidden = true;
 
     botaoEntrar.disabled = true;
     botaoEntrar.textContent = "Entrando...";
 
+
     try {
-        const resposta = await fetch("/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                email: email,
-                senha: senha
-            })
-        });
 
-        let dados = {};
-        try {
-            dados = await resposta.json();
-        } catch {
-            // A resposta pode não conter JSON.
-        }
+        const resposta = await fetch(
+            `${API_URL}/login`,
+            {
+                method: "POST",
 
-        if (resposta.status === 400) {
-            mensagemLogin.textContent =
-                dados.mensagem || dados.message || "Confira os dados informados.";
-            mensagemLogin.hidden = false;
-            return;
-        }
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
 
-        if (resposta.status === 401) {
-            mensagemLogin.textContent =
-                dados.mensagem || dados.message || "E-mail ou senha incorretos.";
-            mensagemLogin.hidden = false;
-            return;
-        }
+                body: JSON.stringify({
+                    email: email,
+                    senha: senha
+                })
+            }
+        );
+
+
+        const dados = await resposta.json();
+
 
         if (!resposta.ok) {
+
             mensagemLogin.textContent =
-                dados.mensagem || dados.message || "Não foi possível entrar. Tente novamente.";
+                dados.mensagem ||
+                dados.message ||
+                "E-mail ou senha incorretos.";
+
             mensagemLogin.hidden = false;
+
             return;
         }
 
-        window.location.href = "dashboard.html";
+
+        console.log(
+            "Login realizado:",
+            dados
+        );
+
+
+        window.location.href =
+            "dashboard.html";
+
+
     } catch (erro) {
+
         mensagemLogin.textContent =
-            "Não foi possível conectar ao servidor. Verifique se a API está em execução.";
+            "Não foi possível conectar ao servidor.";
+
         mensagemLogin.hidden = false;
-        console.error("Erro ao fazer login:", erro);
+
+        console.error(
+            "Erro ao fazer login:",
+            erro
+        );
+
+
     } finally {
+
         botaoEntrar.disabled = false;
         botaoEntrar.textContent = "Entrar";
     }
@@ -206,34 +154,27 @@ formulario.addEventListener("submit", async function (evento) {
 
 
 // ============================================================
-// AUTORIA: Pedro Henrique Sanches
-// Limpeza dos erros enquanto o usuário digita
-// ============================================================
-
-
-
-campoSenha.addEventListener("input", function () {
-
-    campoSenha.setCustomValidity("");
-    campoSenha.classList.remove("invalido");
-});
-
-
-// ============================================================
-// AUTORIA: Júlia Guarnieri
-// Limpeza do erro do e-mail enquanto o usuário digita
+// LIMPAR ERROS
 // ============================================================
 
 campoEmail.addEventListener("input", function () {
 
     campoEmail.setCustomValidity("");
     campoEmail.classList.remove("invalido");
+
+});
+
+
+campoSenha.addEventListener("input", function () {
+
+    campoSenha.setCustomValidity("");
+    campoSenha.classList.remove("invalido");
+
 });
 
 
 // ============================================================
-// AUTORIA: Júlia Guarnieri
-// Contador de caracteres da senha
+// CONTADOR DA SENHA
 // ============================================================
 
 campoSenha.addEventListener("input", function () {
@@ -243,35 +184,51 @@ campoSenha.addEventListener("input", function () {
         contadorSenha.textContent =
             campoSenha.value.length + "/64";
     }
+
 });
 
 
 // ============================================================
-// AUTORIA: Júlia Guarnieri
-// Mostrar e ocultar senha
+// MOSTRAR / OCULTAR SENHA
 // ============================================================
 
 if (botaoMostrarSenha) {
 
-    botaoMostrarSenha.addEventListener("click", function () {
+    botaoMostrarSenha.addEventListener(
+        "click",
+        function () {
 
-        if (campoSenha.type === "password") {
+            if (campoSenha.type === "password") {
 
-            campoSenha.type = "text";
-            botaoMostrarSenha.textContent = "Ocultar senha";
+                campoSenha.type = "text";
 
-        } else {
+                botaoMostrarSenha.textContent =
+                    "Ocultar senha";
 
-            campoSenha.type = "password";
-            botaoMostrarSenha.textContent = "Mostrar senha";
+                botaoMostrarSenha.setAttribute(
+                    "aria-pressed",
+                    "true"
+                );
+
+            } else {
+
+                campoSenha.type = "password";
+
+                botaoMostrarSenha.textContent =
+                    "Mostrar senha";
+
+                botaoMostrarSenha.setAttribute(
+                    "aria-pressed",
+                    "false"
+                );
+            }
         }
-    });
+    );
 }
 
 
 // ============================================================
-// AUTORIA: Júlia Guarnieri
-// Indicador de força da senha
+// FORÇA DA SENHA
 // ============================================================
 
 campoSenha.addEventListener("input", function () {
@@ -284,62 +241,47 @@ campoSenha.addEventListener("input", function () {
 
     let pontos = 0;
 
-    if (senha.length >= 8) {
-        pontos++;
-    }
-
-    if (/[A-Z]/.test(senha)) {
-        pontos++;
-    }
-
-    if (/[a-z]/.test(senha)) {
-        pontos++;
-    }
-
-    if (/[0-9]/.test(senha)) {
-        pontos++;
-    }
-
-    if (/[!@#$%^&*]/.test(senha)) {
-        pontos++;
-    }
+    if (senha.length >= 8) pontos++;
+    if (/[A-Z]/.test(senha)) pontos++;
+    if (/[a-z]/.test(senha)) pontos++;
+    if (/[0-9]/.test(senha)) pontos++;
+    if (/[!@#$%^&*]/.test(senha)) pontos++;
 
 
     if (senha.length === 0) {
 
-        forcaSenha.textContent = "Força da senha: -";
+        forcaSenha.textContent =
+            "Força da senha: -";
 
     } else if (pontos <= 2) {
 
-        forcaSenha.textContent = "Força da senha: Fraca";
+        forcaSenha.textContent =
+            "Força da senha: Fraca";
 
     } else if (pontos === 3) {
 
-        forcaSenha.textContent = "Força da senha: Média";
+        forcaSenha.textContent =
+            "Força da senha: Média";
 
     } else if (pontos === 4) {
 
-        forcaSenha.textContent = "Força da senha: Forte";
+        forcaSenha.textContent =
+            "Força da senha: Forte";
 
     } else {
 
-        forcaSenha.textContent = "Força da senha: Muito forte";
+        forcaSenha.textContent =
+            "Força da senha: Muito forte";
     }
+
 });
 
 
-// ============================================================
-// AUTORIA: Pedro Henrique Sanches
-// Função para limpar as mensagens de erro
-// ============================================================
-
 function limparErros() {
 
-   
     campoSenha.setCustomValidity("");
     campoEmail.setCustomValidity("");
 
-    
     campoSenha.classList.remove("invalido");
     campoEmail.classList.remove("invalido");
 }

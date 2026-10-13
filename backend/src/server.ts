@@ -4,7 +4,9 @@
 
     Arquivo: server.ts
 */
+
 import express from "express";
+import cors from "cors";
 
 import loginRoutes from "./routes/login.routes";
 import dashboardRoutes from "./routes/dashboard.routes";
@@ -16,11 +18,21 @@ const app = express();
 const PORT = 3000;
 
 
+// ============================================================
+// CONFIGURAÇÕES
+// ============================================================
+
+// Permite que o frontend acesse a API
+app.use(cors());
+
 // Permite receber JSON nas requisições
 app.use(express.json());
 
 
-// Rota principal para testar a API
+// ============================================================
+// ROTA PRINCIPAL
+// ============================================================
+
 app.get("/", (req, res) => {
 
     return res.status(200).json({
@@ -30,7 +42,10 @@ app.get("/", (req, res) => {
 });
 
 
-// Rotas da aplicação
+// ============================================================
+// ROTAS DA APLICAÇÃO
+// ============================================================
+
 app.use(loginRoutes);
 
 app.use(dashboardRoutes);
@@ -39,8 +54,6 @@ app.use(demandasRoutes);
 
 app.use(projetosRoutes);
 
-
-// Inicia o servidor
 app.listen(PORT, () => {
 
     console.log(

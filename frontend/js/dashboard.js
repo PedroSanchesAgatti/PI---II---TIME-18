@@ -1,142 +1,210 @@
-javascript
 /*
     Autor: Hyan Victor
     Arquivo: dashboard.js
     Tela: Dashboard
     Projeto Integrador II - Engenharia de Software - 2026
-    como não tem muito o que validar aqui, eu apenas coloquei para conferir se as informações batem 
 */
 
+console.log("dashboard.js carregado!");
 
-// PEGAR OS CARDS DO DASHBOARD
-
-const cards = document.querySelectorAll(".card");
-
-
-// VERIFICAR SE OS CARDS EXISTEM
-
-if (cards.length === 4) {
-
-    const total = parseInt(cards[0].querySelector("strong").textContent);
-    const abertas = parseInt(cards[1].querySelector("strong").textContent);
-    const andamento = parseInt(cards[2].querySelector("strong").textContent);
-    const concluidas = parseInt(cards[3].querySelector("strong").textContent);
+const API_URL = "http://localhost:3000";
 
 
-    // VALIDAR OS NÚMEROS
+document.addEventListener(
+    "DOMContentLoaded",
+    carregarDashboard
+);
 
-    if (
-        isNaN(total) ||
-        isNaN(abertas) ||
-        isNaN(andamento) ||
-        isNaN(concluidas)
-    ) {
+async function carregarDashboard() {
 
-        console.error(
-            "Erro: os valores do resumo do Dashboard são inválidos."
+    console.log("Buscando dados do dashboard...");
+
+    try {
+
+        const resposta = await fetch(
+            `${API_URL}/dashboard`
         );
 
-    } else {
+        const dados = await resposta.json();
 
-        // VERIFICAR SE A SOMA DOS STATUS É IGUAL AO TOTAL
+        console.log(
+            "Dados recebidos do dashboard:",
+            dados
+        );
 
-        const soma = abertas + andamento + concluidas;
-
-
-        if (soma !== total) {
+        if (!resposta.ok) {
 
             console.error(
-                "Erro: os dados do Dashboard não estão consistentes."
+                "Erro ao carregar dashboard:",
+                dados
             );
 
-        } else {
-
-            console.log(
-                "Dashboard validado: os dados estão consistentes."
-            );
-
+            return;
         }
+
+        document.getElementById(
+            "total-demandas"
+        ).textContent = dados.total;
+
+
+        document.getElementById(
+            "demandas-abertas"
+        ).textContent =
+            dados.porStatus.aberta;
+
+
+        document.getElementById(
+            "demandas-andamento"
+        ).textContent =
+            dados.porStatus.andamento;
+
+
+        document.getElementById(
+            "demandas-concluidas"
+        ).textContent =
+            dados.porStatus.concluida;
+
+        document.getElementById(
+            "prioridade-critica"
+        ).textContent =
+            dados.porPrioridade.critica;
+
+
+        document.getElementById(
+            "prioridade-alta"
+        ).textContent =
+            dados.porPrioridade.alta;
+
+
+        document.getElementById(
+            "prioridade-media"
+        ).textContent =
+            dados.porPrioridade.media;
+
+
+        document.getElementById(
+            "prioridade-baixa"
+        ).textContent =
+            dados.porPrioridade.baixa;
+
+
+        atualizarDemandasRecentes(
+            dados.criticasEmAberto
+        );
+
+
+        console.log(
+            "Dashboard atualizado com sucesso!"
+        );
+
+
+    } catch (erro) {
+
+        console.error(
+            "Não foi possível conectar ao servidor:",
+            erro
+        );
     }
 }
 
 
-// VALIDAR DEMANDAS RECENTES
+function atualizarDemandasRecentes(demandas) {
 
-const linhas = document.querySelectorAll(
-    ".bloco-dashboard table tbody tr"
-);
-
-
-linhas.forEach(function (linha, indice) {
-
-    const colunas = linha.querySelectorAll("td");
+    const tabela = document.getElementById(
+        "lista-demandas-recentes"
+    );
 
 
-    if (colunas.length < 4) {
+    if (!tabela) {
 
         console.error(
-            "Erro na demanda " + (indice + 1) +
-            ": informações incompletas."
+            "Tabela lista-demandas-recentes não encontrada."
         );
 
         return;
     }
 
 
-    const titulo = colunas[0].textContent.trim();
-    const prioridade = colunas[1].textContent.trim();
-    const status = colunas[2].textContent.trim();
-    const responsavel = colunas[3].textContent.trim();
+    tabela.replaceChildren();
 
 
-    // VALIDAR TÍTULO
+    if (!demandas || demandas.length === 0) {
 
-    if (titulo === "") {
+        const linha =
+            document.createElement("tr");
 
-        console.error(
-            "Erro: a demanda " + (indice + 1) +
-            " não possui título."
-        );
+        const coluna =
+            document.createElement("td");
+
+
+        coluna.colSpan = 4;
+
+        coluna.textContent =
+            "Nenhuma demanda crítica em aberto.";
+
+
+        linha.appendChild(coluna);
+
+        tabela.appendChild(linha);
+
+        return;
     }
 
 
-    // VALIDAR PRIORIDADE
+    demandas.forEach(function (demanda) {
 
-    if (prioridade === "") {
+        const linha =
+            document.createElement("tr");
 
-        console.error(
-            "Erro: a demanda " + (indice + 1) +
-            " não possui prioridade."
+
+        // TÍTULO
+        linha.appendChild(
+            criarCelula(
+                demanda.titulo
+            )
         );
-    }
 
 
-    // VALIDAR STATUS
-
-    if (status === "") {
-
-        console.error(
-            "Erro: a demanda " + (indice + 1) +
-            " não possui status."
+        // PRIORIDADE
+        linha.appendChild(
+            criarCelula(
+                demanda.prioridade
+            )
         );
-    }
 
 
-    // VALIDAR RESPONSÁVEL
-
-    if (responsavel === "") {
-
-        console.error(
-            "Erro: a demanda " + (indice + 1) +
-            " não possui responsável."
+        // STATUS
+        linha.appendChild(
+            criarCelula(
+                demanda.status
+            )
         );
-    }
-
-});
 
 
-// MENSAGEM NO CONSOLE
+        // RESPONSÁVEL
+        linha.appendChild(
+            criarCelula(
+                demanda.responsavelId
+                    ? "Usuário " +
+                      demanda.responsavelId
+                    : "Sem responsável"
+            )
+        );
 
-console.log(
-    "Dashboard carregado e validado com JavaScript."
-);
+
+        tabela.appendChild(linha);
+    });
+}
+
+
+
+function criarCelula(texto) {
+
+    const td =
+        document.createElement("td");
+
+    td.textContent =
+        texto ?? "—";
+
+    return td;
+}
