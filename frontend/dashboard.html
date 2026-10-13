@@ -1,0 +1,157 @@
+
+<!--
+    Autor: Hyan Victor
+    Tela: Dashboard
+    Projeto Integrador II - Engenharia de Software - 2026
+-->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+
+    <header class="cabecalho">
+        <div class="logo">
+            <h1>Sistema de Demandas</h1>
+        </div>
+
+        <nav class="menu">
+            <a href="login.html">Login</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="demandas.html">Demandas</a>
+            <a href="cadastro-demanda.html">Nova Demanda</a>
+            <a href="detalhes-demanda.html">Detalhes</a>
+        </nav>
+    </header>
+
+    <main class="conteudo">
+
+        <h2>Dashboard</h2>
+
+        <p class="descricao-pagina">
+            Visão geral das demandas cadastradas no sistema.
+        </p>
+
+        <!-- RESUMO DAS DEMANDAS -->
+
+        <section class="resumo">
+
+            <div class="card">
+                <span>Total de demandas</span>
+                <strong id="total-demandas">0</strong>
+            </div>
+
+            <div class="card">
+                <span>Demandas abertas</span>
+                <strong id="demandas-abertas">0</strong>
+            </div>
+
+            <div class="card">
+                <span>Em andamento</span>
+                <strong id="demandas-andamento">0</strong>
+            </div>
+
+            <div class="card">
+                <span>Concluídas</span>
+                <strong id="demandas-concluidas">0</strong>
+            </div>
+
+        </section>
+
+        <!-- INFORMAÇÕES -->
+
+        <section class="painel-dashboard">
+
+            <!-- DEMANDAS RECENTES -->
+
+            <div class="bloco-dashboard">
+
+                <h3>Demandas Recentes</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Prioridade</th>
+                            <th>Status</th>
+                            <th>Responsável</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="lista-demandas-recentes">
+                        <tr>
+                            <td colspan="4">Carregando demandas...</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- RESUMO POR PRIORIDADE -->
+
+            <div class="bloco-dashboard">
+
+                <h3>Demandas por Prioridade</h3>
+
+                <div class="item-prioridade">
+                    <span>Crítica</span>
+                    <strong id="prioridade-critica">0</strong>
+                </div>
+
+                <div class="item-prioridade">
+                    <span>Alta</span>
+                    <strong id="prioridade-alta">0</strong>
+                </div>
+
+                <div class="item-prioridade">
+                    <span>Média</span>
+                    <strong id="prioridade-media">0</strong>
+                </div>
+
+                <div class="item-prioridade">
+                    <span>Baixa</span>
+                    <strong id="prioridade-baixa">0</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ATALHOS -->
+
+        <section class="atalhos">
+
+            <h3>Acesso rápido</h3>
+
+            <div class="botoes-dashboard">
+
+                <a href="cadastro-demanda.html"
+                   class="botao botao-salvar">
+                    Nova Demanda
+                </a>
+
+                <a href="demandas.html"
+                   class="botao botao-cancelar">
+                    Ver Demandas
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="js/dashboard.js"></script>
+
+</body>
+</html>

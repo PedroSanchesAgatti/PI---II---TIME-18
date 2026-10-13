@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detalhes da Demanda</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/detalhes.css">
+</head>
+
+<body>
+
+    <header class="cabecalho">
+        <div class="logo">
+            <h1>Sistema de Demandas</h1>
+        </div>
+
+        <nav class="menu">
+            <a href="login.html">Login</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="demandas.html">Demandas</a>
+            <a href="cadastro-demanda.html">Nova Demanda</a>
+        </nav>
+    </header>
+
+    <main class="conteudo">
+
+        <section class="detalhes-demanda">
+
+            <h2>Detalhes da Demanda</h2>
+
+            <p class="descricao-pagina">
+                Visualização das informações da demanda selecionada.
+            </p>
+
+            <p id="mensagem-demanda" role="status">
+                Carregando informações da demanda...
+            </p>
+
+            <div class="informacoes-demanda" id="informacoes-demanda" hidden>
+
+                <div class="informacao">
+                    <span>Título</span>
+                    <strong id="titulo"></strong>
+                </div>
+
+                <div class="informacao">
+                    <span>Descrição</span>
+                    <strong id="descricao"></strong>
+                </div>
+
+                <div class="linha-informacoes">
+
+                    <div class="informacao">
+                        <span>Tipo da demanda</span>
+                        <strong id="tipo"></strong>
+                    </div>
+
+                    <div class="informacao">
+                        <span>Projeto associado</span>
+                        <strong id="projeto"></strong>
+                    </div>
+
+                </div>
+
+                <div class="linha-informacoes">
+
+                    <div class="informacao">
+                        <span>Prioridade</span>
+                        <strong id="prioridade"></strong>
+                    </div>
+
+                    <div class="informacao">
+                        <span>Status</span>
+                        <strong id="status"></strong>
+                    </div>
+
+                </div>
+
+                <div class="linha-informacoes">
+
+                    <div class="informacao">
+                        <span>Responsável</span>
+                        <strong id="responsavel"></strong>
+                    </div>
+
+                    <div class="informacao">
+                        <span>Prazo de finalização</span>
+                        <strong id="prazo"></strong>
+                    </div>
+
+                </div>
+
+                <div class="linha-informacoes">
+
+                    <div class="informacao">
+                        <span>Data de criação</span>
+                        <strong id="data-criacao"></strong>
+                    </div>
+
+                    <div class="informacao">
+                        <span>Última atualização</span>
+                        <strong id="data-atualizacao"></strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="acoes-formulario">
+
+                <a href="demandas.html" class="botao botao-cancelar">
+                    Voltar para demandas
+                </a>
+
+                <a id="botao-editar" href="cadastro-demanda.html"
+                   class="botao botao-salvar">
+                    Editar demanda
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="js/detalhes-demanda.js"></script>
+
+</body>
+</html>
