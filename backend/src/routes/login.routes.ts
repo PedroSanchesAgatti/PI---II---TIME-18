@@ -10,7 +10,7 @@ const router = Router();
 
 router.post("/login", (req, res) => {
     const { email, senha } = req.body;
-
+ 
     if (!email || !senha) {
         return res.status(400).json({
             mensagem: "E-mail e senha são obrigatórios."
