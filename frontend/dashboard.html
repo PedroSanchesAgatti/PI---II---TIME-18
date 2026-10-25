@@ -1,4 +1,3 @@
-
 <!--
     Autor: Hyan Victor
     Tela: Dashboard
@@ -31,12 +30,17 @@
             <a href="demandas.html">Demandas</a>
             <a href="cadastro-demanda.html">Nova Demanda</a>
             <a href="detalhes-demanda.html">Detalhes</a>
+            <button type="button" id="botao-sair">
+                Sair
+            </button>
         </nav>
     </header>
 
     <main class="conteudo">
 
         <h2>Dashboard</h2>
+
+        <p id="usuario-logado"></p>
 
         <p class="descricao-pagina">
             Visão geral das demandas cadastradas no sistema.
@@ -135,13 +139,11 @@
 
             <div class="botoes-dashboard">
 
-                <a href="cadastro-demanda.html"
-                   class="botao botao-salvar">
+                <a href="cadastro-demanda.html" class="botao botao-salvar">
                     Nova Demanda
                 </a>
 
-                <a href="demandas.html"
-                   class="botao botao-cancelar">
+                <a href="demandas.html" class="botao botao-cancelar">
                     Ver Demandas
                 </a>
 
@@ -150,8 +152,12 @@
         </section>
 
     </main>
-
+    <!-- Feito por: Pedro Henrique Sanches o autenticador -->
+    <script src="js/auth.js"></script>
     <script src="js/dashboard.js"></script>
 
+
+
 </body>
+
 </html>

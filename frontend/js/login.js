@@ -86,17 +86,14 @@ formulario.addEventListener("submit", async function (evento) {
 
 
     try {
-
         const resposta = await fetch(
             `${API_URL}/login`,
             {
                 method: "POST",
-
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-
                 body: JSON.stringify({
                     email: email,
                     senha: senha
@@ -104,12 +101,9 @@ formulario.addEventListener("submit", async function (evento) {
             }
         );
 
-
         const dados = await resposta.json();
 
-
         if (!resposta.ok) {
-
             mensagemLogin.textContent =
                 dados.mensagem ||
                 dados.message ||
@@ -120,19 +114,20 @@ formulario.addEventListener("submit", async function (evento) {
             return;
         }
 
+        sessionStorage.setItem(
+            "usuarioAutenticado",
+            JSON.stringify(dados.usuario)
+        );
 
         console.log(
             "Login realizado:",
-            dados
+            dados.usuario
         );
 
-
-        window.location.href =
-            "dashboard.html";
-
-
-    } catch (erro) {
-
+        window.location.href = "dashboard.html";
+ 
+    } 
+    catch (erro) {
         mensagemLogin.textContent =
             "Não foi possível conectar ao servidor.";
 
@@ -142,9 +137,8 @@ formulario.addEventListener("submit", async function (evento) {
             "Erro ao fazer login:",
             erro
         );
-
-
-    } finally {
+    }
+    finally {
 
         botaoEntrar.disabled = false;
         botaoEntrar.textContent = "Entrar";

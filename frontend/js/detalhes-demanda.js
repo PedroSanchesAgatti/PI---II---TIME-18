@@ -1,3 +1,12 @@
+const usuario = obterUsuarioAutenticado();
+
+if (!usuario) {
+    throw new Error(
+        "Usuário não autenticado."
+    );
+}
+
+
 console.log("detalhes-demanda.js carregado!");
 
 const API_URL = "http://localhost:3000";

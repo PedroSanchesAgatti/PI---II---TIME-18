@@ -9,6 +9,22 @@ console.log("dashboard.js carregado!");
 
 const API_URL = "http://localhost:3000";
 
+// Feito por Pedro Henrique Sanches a autenticação
+
+const usuario = obterUsuarioAutenticado();
+
+if (usuario) {
+    const elementoUsuario = document.querySelector(
+        "#usuario-logado"
+    );
+
+    if (elementoUsuario) {
+        elementoUsuario.textContent =
+            `Usuário: ${usuario.nome} | Perfil: ${usuario.perfil}`;
+    }
+}
+
+
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -196,6 +212,16 @@ function atualizarDemandasRecentes(demandas) {
     });
 }
 
+const botaoSair = document.querySelector(
+    "#botao-sair"
+);
+
+if (botaoSair) {
+    botaoSair.addEventListener(
+        "click",
+        sairDoSistema
+    );
+}
 
 
 function criarCelula(texto) {
