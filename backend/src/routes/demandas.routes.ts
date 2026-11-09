@@ -608,6 +608,7 @@ router.post(
             .json(novoComentario);
     }
 );
+
 router.put("/demandas/:id", (req, res) => {
 
     const id = Number(req.params.id);
@@ -639,6 +640,7 @@ router.put("/demandas/:id", (req, res) => {
         descricao,
         tipo,
         prioridade,
+        status,
         projetoId,
         responsavelId,
         prazo
@@ -650,11 +652,12 @@ router.put("/demandas/:id", (req, res) => {
         !descricao ||
         !tipo ||
         !prioridade ||
-        !projetoId
+        !projetoId ||
+        !status
     ) {
         return res.status(400).json({
             mensagem:
-                "Título, descrição, tipo, prioridade e projeto são obrigatórios."
+                "Título, descrição, tipo, prioridade, status e projeto são obrigatórios."
         });
     }
 
@@ -685,6 +688,22 @@ router.put("/demandas/:id", (req, res) => {
     if (!prioridadesPermitidas.includes(prioridade)) {
         return res.status(400).json({
             mensagem: "Prioridade inválida."
+        });
+    }
+
+
+const statusPermitidos = [
+    "Aberta",
+    "Em andamento",
+    "Em revisão",
+    "Concluída",
+    "Cancelada"
+];
+
+
+    if (!statusPermitidos.includes(status)) {
+        return res.status(400).json({
+            mensagem: "Status da demanda inválido."
         });
     }
 
@@ -746,6 +765,8 @@ router.put("/demandas/:id", (req, res) => {
 
         prioridade,
 
+        status,
+
         projetoId: Number(projetoId),
 
         responsavelId:
@@ -769,6 +790,47 @@ router.put("/demandas/:id", (req, res) => {
     return res.status(200).json({
         mensagem: "Demanda atualizada com sucesso.",
         demanda: demandaAtualizada
+    });
+
+});
+
+
+
+/*
+    Rota de Exclusão de Demandas
+    Projeto Integrador II - Engenharia de Software - 2026
+
+    Autora: Júlia Andrade Guarnieri
+    Rota: DELETE /demandas/:id
+
+    Descrição:
+    Exclui uma demanda pelo ID informado.
+*/
+
+router.delete("/demandas/:id", (req, res) => {
+
+    const id = Number(req.params.id);
+
+    if (!Number.isInteger(id) || id <= 0) {
+        return res.status(400).json({
+            mensagem: "ID da demanda inválido."
+        });
+    }
+
+    const indice = demandas.findIndex(
+        d => d.id === id
+    );
+
+    if (indice === -1) {
+        return res.status(404).json({
+            mensagem: "Demanda não encontrada."
+        });
+    }
+
+    demandas.splice(indice, 1);
+
+    return res.status(200).json({
+        mensagem: "Demanda excluída com sucesso."
     });
 
 });
