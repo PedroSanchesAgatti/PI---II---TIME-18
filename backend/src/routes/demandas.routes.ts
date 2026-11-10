@@ -833,6 +833,91 @@ router.delete("/demandas/:id", (req, res) => {
         mensagem: "Demanda excluída com sucesso."
     });
 
+
+    /*Gabriel Castro*/
+    import { Router, Request, Response } from 'express';
+import oracledb from 'oracledb';
+
+// Integrar ao middleware de autenticação existente: ele deve definir req.usuario.id.
+type UsuarioRequest = Request & { usuario?: { id: number; perfil: string } };
+const router = Router();
+const erro = (res: Response, status: number, mensagem: string) => res.status(status).json({ erro: mensagem });
+const idValido = (id: string) => /^\d+$/.test(id) && Number.isSafeInteger(Number(id)) && Number(id) > 0;
+
+router.use((req: UsuarioRequest, res, next) => {
+  if (!req.usuario?.id) { erro(res, 401, 'Faça login para acessar os detalhes.'); return; }
+  next();
+});
+
+router.get('/:id', async (req, res) => {
+  if (!idValido(req.params.id as string)) { erro(res, 400, 'ID inválido.'); return; }
+  try {
+    const r = await oracledb.getConnection();
+    try {
+      const resultado = await r.execute(`SELECT d.id, d.titulo, d.descricao, d.tipo, d.prioridade, d.status,
+        d.prazo_finalizacao, d.data_criacao, d.data_atualizacao,
+        p.nome AS projeto_nome, u.nome AS responsavel_nome
+        FROM demandas d JOIN projetos p ON p.id = d.projeto_id
+        LEFT JOIN usuarios u ON u.id = d.responsavel_id WHERE d.id = :id`, { id: Number(req.params.id) }, { outFormat: oracledb.OUT_FORMAT_OBJECT });
+      if (!resultado.rows?.length) { erro(res, 404, 'Demanda não encontrada.'); return; }
+      res.json(resultado.rows[0]);
+    } finally { await r.close(); }
+  } catch { erro(res, 500, 'Erro ao consultar demanda.'); }
+});
+
+router.get('/:id/comentarios', async (req, res) => {
+  if (!idValido(req.params.id as string)) { erro(res, 400, 'ID inválido.'); return; }
+  try {
+    const c = await oracledb.getConnection();
+    try {
+      const existe = await c.execute('SELECT id FROM demandas WHERE id = :id', { id: Number(req.params.id) });
+      if (!existe.rows?.length) { erro(res, 404, 'Demanda não encontrada.'); return; }
+      const r = await c.execute(`SELECT c.id, c.texto, c.data_criacao, u.nome AS usuario_nome
+        FROM comentarios c JOIN usuarios u ON u.id = c.usuario_id
+        WHERE c.demanda_id = :id ORDER BY c.data_criacao ASC`, { id: Number(req.params.id) }, { outFormat: oracledb.OUT_FORMAT_OBJECT });
+      res.json(r.rows);
+    } finally { await c.close(); }
+  } catch { erro(res, 500, 'Erro ao consultar comentários.'); }
+});
+
+router.post('/:id/comentarios', async (req: UsuarioRequest, res) => {
+  if (!idValido(req.params.id as string)) { erro(res, 400, 'ID inválido.'); return; }
+  const texto = req.body?.texto;
+  if (typeof texto !== 'string' || !texto.trim() || texto.trim().length > 2000) {
+    erro(res, 400, 'O comentário deve conter entre 1 e 2000 caracteres.'); return;
+  }
+  try {
+    const c = await oracledb.getConnection();
+    try {
+      const existe = await c.execute('SELECT id FROM demandas WHERE id = :id', { id: Number(req.params.id) });
+      if (!existe.rows?.length) { erro(res, 404, 'Demanda não encontrada.'); return; }
+      const r = await c.execute(`INSERT INTO comentarios (demanda_id, usuario_id, texto, data_criacao)
+        VALUES (:demanda, :usuario, :texto, SYSTIMESTAMP) RETURNING id INTO :id`, {
+        demanda: Number(req.params.id), usuario: req.usuario!.id, texto: texto.trim(),
+        id: { dir: oracledb.BIND_OUT, type: oracledb.NUMBER }
+      }, { autoCommit: true });
+      res.status(201).json({ mensagem: 'Comentário registrado.', id: (r.outBinds as any)?.id?.[0] });
+    } finally { await c.close(); }
+  } catch { erro(res, 500, 'Erro ao registrar comentário.'); }
+});
+
+router.get('/:id/historico', async (req, res) => {
+  if (!idValido(req.params.id as string)) { erro(res, 400, 'ID inválido.'); return; }
+  try {
+    const c = await oracledb.getConnection();
+    try {
+      const existe = await c.execute('SELECT id FROM demandas WHERE id = :id', { id: Number(req.params.id) });
+      if (!existe.rows?.length) { erro(res, 404, 'Demanda não encontrada.'); return; }
+      const r = await c.execute(`SELECT h.campo, h.valor_anterior, h.valor_novo, h.data_alteracao,
+        u.nome AS usuario_nome FROM historico_demandas h JOIN usuarios u ON u.id = h.usuario_id
+        WHERE h.demanda_id = :id ORDER BY h.data_alteracao DESC`, { id: Number(req.params.id) }, { outFormat: oracledb.OUT_FORMAT_OBJECT });
+      res.json(r.rows);
+    } finally { await c.close(); }
+  } catch { erro(res, 500, 'Erro ao consultar histórico.'); }
+});
+export default router;
+
+
 });
 
 export default router;
