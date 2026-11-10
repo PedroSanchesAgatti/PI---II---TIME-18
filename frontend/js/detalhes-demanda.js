@@ -1,261 +1,219 @@
-const usuario = obterUsuarioAutenticado();
 
-if (!usuario) {
-    throw new Error(
-        "Usuário não autenticado."
-    );
+const API = window.API_URL || 'http://localhost:3000';
+
+const id = new URLSearchParams(location.search).get('id');
+
+const $ = (id) => document.getElementById(id);
+
+const mensagem = (id, texto) => {
+    $(id).textContent = texto;
+};
+
+const data = (valor) => {
+    return valor
+        ? new Date(valor).toLocaleString('pt-BR')
+        : 'Não informado';
+};
+
+const nome = (valor) => {
+    if (typeof valor === 'object' && valor !== null) {
+        return valor.nome || valor.titulo || valor.id || 'Não informado';
+    }
+
+    return valor ?? 'Não informado';
+};
+
+async function requisicao(caminho, opcoes = {}) {
+    let resposta;
+
+    try {
+        resposta = await fetch(`${API}${caminho}`, {
+            credentials: 'include',
+            ...opcoes
+        });
+    } catch {
+        throw new Error('Não foi possível conectar à API.');
+    }
+
+    const json = await resposta.json().catch(() => ({}));
+
+    if (!resposta.ok) {
+        throw new Error(
+            json.erro ||
+            json.mensagem ||
+            `Erro HTTP ${resposta.status}`
+        );
+    }
+
+    return json;
 }
 
-
-console.log("detalhes-demanda.js carregado!");
-
-const API_URL = "http://localhost:3000";
-
-
-document.addEventListener(
-    "DOMContentLoaded",
-    carregarDemanda
-);
-
-
-// ============================================================
-// CARREGAR DEMANDA
-// ============================================================
-
 async function carregarDemanda() {
-
-    const parametros =
-        new URLSearchParams(
-            window.location.search
+    if (!id || !/^\d+$/.test(id)) {
+        mensagem(
+            'mensagem-demanda',
+            'Selecione uma demanda na listagem para visualizar os detalhes.'
         );
-
-
-    const id =
-        parametros.get("id");
-
-
-    const mensagem =
-        document.getElementById(
-            "mensagem-demanda"
-        );
-
-
-    const informacoes =
-        document.getElementById(
-            "informacoes-demanda"
-        );
-
-
-    const botaoEditar =
-        document.getElementById(
-            "botao-editar"
-        );
-
-
-    // ========================================================
-    // VALIDAR ID
-    // ========================================================
-
-    if (
-        !id ||
-        !Number.isInteger(Number(id)) ||
-        Number(id) <= 0
-    ) {
-
-        mensagem.textContent =
-            "Selecione uma demanda na página de listagem.";
-
         return;
     }
 
-
     try {
-
-        // ====================================================
-        // GET /demandas/:id
-        // ====================================================
-
-        const resposta = await fetch(
-            `${API_URL}/demandas/${id}`
+        const d = await requisicao(
+            `/demandas/${encodeURIComponent(id)}`
         );
 
+        const campos = {
+            titulo: d.titulo,
+            descricao: d.descricao,
+            tipo: d.tipo,
+            projeto: nome(d.projeto_nome ?? d.projeto),
+            prioridade: d.prioridade,
+            status: d.status,
+            responsavel: nome(d.responsavel_nome ?? d.responsavel),
+            prazo: data(d.prazo_finalizacao ?? d.prazo),
+            'data-criacao': data(d.data_criacao),
+            'data-atualizacao': data(d.data_atualizacao)
+        };
 
-        if (resposta.status === 404) {
+        Object.entries(campos).forEach(([chave, valor]) => {
+            $(chave).textContent = valor ?? 'Não informado';
+        });
 
-            mensagem.textContent =
-                "Demanda não encontrada.";
+        $('informacoes-demanda').hidden = false;
+        $('form-comentario').hidden = false;
 
+        $('botao-editar').href =
+            `cadastro-demanda.html?id=${encodeURIComponent(id)}`;
+
+        mensagem('mensagem-demanda', '');
+
+        await Promise.all([
+            carregarComentarios(),
+            carregarHistorico()
+        ]);
+
+    } catch (erro) {
+        mensagem('mensagem-demanda', erro.message);
+    }
+}
+
+async function carregarComentarios() {
+    try {
+        const comentarios = await requisicao(
+            `/demandas/${encodeURIComponent(id)}/comentarios`
+        );
+
+        const lista = $('lista-comentarios');
+        lista.replaceChildren();
+
+        if (!comentarios.length) {
+            lista.textContent = 'Nenhum comentário registrado.';
             return;
         }
 
+        comentarios.forEach(c => {
+            const item = document.createElement('article');
+            item.className = 'comentario';
 
-        if (!resposta.ok) {
+            const autor = document.createElement('strong');
+            autor.textContent = nome(c.usuario_nome ?? c.usuario);
 
-            throw new Error(
-                "Erro ao consultar a demanda."
-            );
-        }
+            const quando = document.createElement('small');
+            quando.textContent = data(c.data_criacao);
 
+            const texto = document.createElement('p');
+            texto.textContent = c.texto;
 
-        const demanda =
-            await resposta.json();
-
-
-        console.log(
-            "Demanda recebida:",
-            demanda
-        );
-
-
-        // ====================================================
-        // PREENCHER HTML
-        // ====================================================
-
-        document.getElementById(
-            "titulo"
-        ).textContent =
-            demanda.titulo ||
-            "Não informado";
-
-
-        document.getElementById(
-            "descricao"
-        ).textContent =
-            demanda.descricao ||
-            "Não informada";
-
-
-        document.getElementById(
-            "tipo"
-        ).textContent =
-            demanda.tipo ||
-            "Não informado";
-
-
-        document.getElementById(
-            "prioridade"
-        ).textContent =
-            demanda.prioridade ||
-            "Não informada";
-
-
-        document.getElementById(
-            "status"
-        ).textContent =
-            demanda.status ||
-            "Não informado";
-
-
-        // PROJETO
-
-        document.getElementById(
-            "projeto"
-        ).textContent =
-            demanda.projeto
-                ? demanda.projeto.nome
-                : "Não informado";
-
-
-        // RESPONSÁVEL
-
-        document.getElementById(
-            "responsavel"
-        ).textContent =
-            demanda.responsavel
-                ? demanda.responsavel.nome
-                : "Não atribuído";
-
-
-        // PRAZO
-
-        document.getElementById(
-            "prazo"
-        ).textContent =
-            formatarData(
-                demanda.prazo
-            );
-
-
-        // DATA DE CRIAÇÃO
-
-        document.getElementById(
-            "data-criacao"
-        ).textContent =
-            formatarData(
-                demanda.dataCriacao
-            );
-
-
-        // DATA DE ATUALIZAÇÃO
-
-        document.getElementById(
-            "data-atualizacao"
-        ).textContent =
-            formatarData(
-                demanda.dataAtualizacao
-            );
-
-
-        // ====================================================
-        // MOSTRAR INFORMAÇÕES
-        // ====================================================
-
-        informacoes.hidden = false;
-
-        mensagem.textContent = "";
-
-
-        // O botão editar continua preparado
-        // para uma implementação futura.
-
-        botaoEditar.href =
-            `cadastro-demanda.html?id=${demanda.id}`;
-
+            item.append(autor, quando, texto);
+            lista.append(item);
+        });
 
     } catch (erro) {
+        mensagem('mensagem-comentario', erro.message);
+    }
+}
 
-        mensagem.textContent =
-            "Não foi possível carregar os dados. " +
-            "Verifique se a API está funcionando.";
-
-
-        console.error(
-            "Erro ao carregar demanda:",
-            erro
+async function carregarHistorico() {
+    try {
+        const historico = await requisicao(
+            `/demandas/${encodeURIComponent(id)}/historico`
         );
+
+        const lista = $('lista-historico');
+        lista.replaceChildren();
+
+        if (!historico.length) {
+            lista.textContent = 'Nenhuma alteração registrada.';
+            return;
+        }
+
+        historico.forEach(h => {
+            const item = document.createElement('li');
+
+            item.textContent =
+                `${data(h.data_alteracao)} — ` +
+                `${nome(h.usuario_nome)} alterou ${h.campo}: ` +
+                `${h.valor_anterior ?? 'Não definido'} → ` +
+                `${h.valor_novo ?? 'Não definido'}`;
+
+            lista.append(item);
+        });
+
+    } catch (erro) {
+        $('lista-historico').textContent = erro.message;
     }
 }
 
+$('form-comentario').addEventListener('submit', async (evento) => {
+    evento.preventDefault();
 
-// ============================================================
-// FORMATAR DATA
-// ============================================================
+    const texto = $('texto-comentario').value.trim();
 
-function formatarData(data) {
-
-    if (!data) {
-        return "Não informado";
+    if (!texto) {
+        mensagem(
+            'mensagem-comentario',
+            'Digite um comentário antes de publicar.'
+        );
+        return;
     }
 
-
-    const valor =
-        String(data).substring(0, 10);
-
-
-    const partes =
-        valor.split("-");
-
-
-    if (partes.length !== 3) {
-        return valor;
+    if (texto.length > 2000) {
+        mensagem(
+            'mensagem-comentario',
+            'Máximo de 2000 caracteres.'
+        );
+        return;
     }
 
+    const botao = $('form-comentario').querySelector('button');
+    botao.disabled = true;
 
-    return (
-        partes[2] +
-        "/" +
-        partes[1] +
-        "/" +
-        partes[0]
-    );
-}
+    try {
+        await requisicao(
+            `/demandas/${encodeURIComponent(id)}/comentarios`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ texto })
+            }
+        );
+
+        $('texto-comentario').value = '';
+
+        mensagem(
+            'mensagem-comentario',
+            'Comentário publicado.'
+        );
+
+        await carregarComentarios();
+
+    } catch (erro) {
+        mensagem('mensagem-comentario', erro.message);
+    } finally {
+        botao.disabled = false;
+    }
+});
+
+carregarDemanda();
