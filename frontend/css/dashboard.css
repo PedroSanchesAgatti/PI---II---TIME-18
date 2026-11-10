@@ -1,217 +1,225 @@
 /*
-autor: Hyan Victor
-dashboard.css
-Tela: Dashboard
-Projeto Integrador II - Engenharia de Software - 2026
+    Autor: Hyan Victor
+    Arquivo: dashboard.css
+    Tela: Dashboard
+    Projeto Integrador II - Engenharia de Software - 2026
 */
 
-/* RESUMO */
+.titulo-dashboard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.titulo-dashboard h2 {
+    margin-bottom: 8px;
+}
+
+#usuario-logado {
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.descricao-pagina {
+    color: #666;
+}
 
 .resumo {
-display: flex;
-gap: 20px;
-margin-bottom: 25px;
+    display: flex;
+    gap: 20px;
+    margin: 20px 0 25px;
 }
 
 .card {
-background-color: white;
-padding: 20px;
-
-border-radius: 10px;
-
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-
-flex: 1;
-
-display: flex;
-flex-direction: column;
-gap: 8px;
-
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .card span {
-color: #666;
-font-size: 14px;
+    color: #666;
+    font-size: 14px;
 }
 
 .card strong {
-font-size: 28px;
+    font-size: 28px;
 }
 
-/* PAINEL PRINCIPAL */
+.mensagem-erro,
+.mensagem-status {
+    margin: 12px 0;
+    padding: 11px 14px;
+    border-radius: 6px;
+}
+
+.mensagem-erro {
+    color: #991b1b;
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+}
+
+.mensagem-status {
+    color: #475569;
+    font-size: 13px;
+}
 
 .painel-dashboard {
-display: flex;
-gap: 20px;
-margin-bottom: 25px;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(230px, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
 }
 
-.bloco-dashboard {
-background-color: white;
-
-padding: 25px;
-
-border-radius: 10px;
-
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-
+.bloco-dashboard,
+.atalhos {
+    min-width: 0;
+    padding: 25px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.painel-dashboard .bloco-dashboard {
-flex: 2;
+.bloco-dashboard h3,
+.atalhos h3 {
+    margin-bottom: 18px;
 }
 
-.painel-dashboard .bloco-dashboard {
-flex: 1;
+.bloco-prazos {
+    margin-bottom: 25px;
 }
 
-.bloco-dashboard h3 {
-margin-bottom: 20px;
+.tabela-responsiva {
+    width: 100%;
+    overflow-x: auto;
 }
-
-/* TABELA */
 
 .bloco-dashboard table {
-width: 100%;
-
-border-collapse: collapse;
-
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .bloco-dashboard th,
 .bloco-dashboard td {
-padding: 12px;
-
-border-bottom: 1px solid #ddd;
-
-text-align: left;
-
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    white-space: nowrap;
 }
 
 .bloco-dashboard th {
-background-color: #1f2937;
-color: white;
+    color: white;
+    background-color: #1f2937;
 }
 
-.bloco-dashboard tr {
-background-color: #f0f0f0;
+.bloco-dashboard tbody tr:nth-child(even) {
+    background-color: #f8fafc;
 }
 
-/* STATUS */
-
-.status-aberta,
-.status-andamento {
-display: inline-block;
-
-padding: 5px 9px;
-
-border-radius: 5px;
-
-font-size: 13px;
-
-}
-
-.status-aberta {
-background-color: #dbeafe;
-color: #1d4ed8;
-}
-
-.status-andamento {
-background-color: #fef3c7;
-color: #92400e;
-}
-
-/* PRIORIDADES */
-
-.prioridade-alta,
-.prioridade-media {
-display: inline-block;
-
-padding: 5px 9px;
-
-border-radius: 5px;
-
-font-size: 13px;
-
-}
-
-.prioridade-alta {
-background-color: #fee2e2;
-color: #b91c1c;
-}
-
-.prioridade-media {
-background-color: #fef3c7;
-color: #92400e;
-}
-
-/* LISTA DE PRIORIDADES */
-
-.item-prioridade {
-display: flex;
-
-justify-content: space-between;
-
-align-items: center;
-
-padding: 14px 0;
-
-border-bottom: 1px solid #ddd;
-
+.bloco-dashboard tbody tr:hover {
+    background-color: #eef2ff;
 }
 
 .item-prioridade {
-border-bottom: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.item-prioridade:last-child {
+    border-bottom: none;
 }
 
 .item-prioridade span {
-color: #555;
+    color: #555;
 }
 
 .item-prioridade strong {
-font-size: 18px;
-}
-
-/* ACESSO RÁPIDO */
-
-.atalhos {
-background-color: white;
-
-padding: 25px;
-
-border-radius: 10px;
-
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-
-}
-
-.atalhos h3 {
-margin-bottom: 20px;
+    font-size: 18px;
 }
 
 .botoes-dashboard {
-display: flex;
-gap: 10px;
+    display: flex;
+    gap: 10px;
 }
 
-/* RESPONSIVIDADE */
-
-@media (max-width: 800px) {
-
-.resumo {
-    flex-wrap: wrap;
+#botao-atualizar,
+#botao-sair {
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
-.card {
-    min-width: 45%;
+#botao-atualizar {
+    white-space: nowrap;
 }
 
-.painel-dashboard {
-    flex-direction: column;
+#botao-sair {
+    padding: 8px 12px;
+    color: white;
+    background: transparent;
+    font-size: 16px;
 }
 
-.botoes-dashboard {
-    flex-direction: column;
+#botao-sair:hover {
+    background-color: rgba(255, 255, 255, 0.12);
 }
 
+@media (max-width: 900px) {
+    .cabecalho {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .menu {
+        flex-wrap: wrap;
+        gap: 12px 18px;
+    }
+
+    .resumo {
+        flex-wrap: wrap;
+    }
+
+    .card {
+        flex: 1 1 calc(50% - 20px);
+    }
+
+    .painel-dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .conteudo {
+        width: 94%;
+        margin: 24px auto;
+    }
+
+    .titulo-dashboard {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .card {
+        flex-basis: 100%;
+    }
+
+    .bloco-dashboard,
+    .atalhos {
+        padding: 16px;
+    }
+
+    .botoes-dashboard {
+        flex-direction: column;
+    }
 }
