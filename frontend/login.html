@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -11,26 +12,6 @@
 
     <!-- Autor: Pedro Sanches -->
     <link rel="stylesheet" href="css/login.css">
-
-    <!-- URL PARA TESTE:
-     Credenciais validas: POST http://localhost:3000/login
-    {
-      "email": "admin@sistema.com",
-      "senha": "Admin123!"
-    }
-
-
-    campos obrigatórios ausentes: POST http://localhost:3000/login
-
-    credenciais inválidas: POST http://localhost:3000/login
-    {
-      "email": "admin@sistema.com",
-      "senha": "22"
-    }
-
-    GET http://localhost:3000/usuarios
-
-      -->
 
 </head>
 
@@ -52,7 +33,6 @@
 
             <form id="login-form">
 
-                <!-- E-mail -->
                 <div class="campo">
 
                     <label for="email">E-mail</label>
@@ -67,7 +47,6 @@
 
                 </div>
 
-                <!-- Senha -->
                 <div class="campo">
 
                     <label for="password">Senha</label>
@@ -77,6 +56,7 @@
                         id="password"
                         name="password"
                         placeholder="Digite a senha"
+                        maxlength="64"
                         required
                     >
 
@@ -89,14 +69,52 @@
                         Mostrar senha
                     </button>
 
-                    <small id="contadorSenha">0/64</small>
+                    <small id="contadorSenha">
+                        0/64 caracteres
+                    </small>
 
-                    <small id="forcaSenha">Força da senha: -</small>
+                    <div class="requisitos-senha">
+
+                        <div class="requisito invalido" id="req-tamanho">
+                            <span>✕</span>
+                            Mínimo de 8 caracteres
+                        </div>
+
+                        <div class="requisito invalido" id="req-maiuscula">
+                            <span>✕</span>
+                            Letra maiúscula
+                        </div>
+
+                        <div class="requisito invalido" id="req-minuscula">
+                            <span>✕</span>
+                            Letra minúscula
+                        </div>
+
+                        <div class="requisito invalido" id="req-numero">
+                            <span>✕</span>
+                            Pelo menos um número
+                        </div>
+
+                        <div class="requisito invalido" id="req-especial">
+                            <span>✕</span>
+                            Caractere especial
+                        </div>
+
+                    </div>
+
+                    <small id="forcaSenha">
+                        Força da senha: -
+                    </small>
 
                 </div>
-                <p id="mensagem-login" role="status" aria-live="polite" hidden></p>
 
-                <!-- Botão -->
+                <p
+                    id="mensagem-login"
+                    role="status"
+                    aria-live="polite"
+                    hidden
+                ></p>
+
                 <div class="acoes-formulario">
 
                     <button
