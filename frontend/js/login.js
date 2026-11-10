@@ -276,6 +276,83 @@ function limparErros() {
     campoSenha.setCustomValidity("");
     campoEmail.setCustomValidity("");
 
+
+//Gabriel Castro
+
+
+
+
+const campoSenha = document.getElementById("password");
+const contadorSenha = document.getElementById("contadorSenha");
+const forcaSenha = document.getElementById("forcaSenha");
+
+const requisitos = {
+    tamanho: document.getElementById("req-tamanho"),
+    maiuscula: document.getElementById("req-maiuscula"),
+    minuscula: document.getElementById("req-minuscula"),
+    numero: document.getElementById("req-numero"),
+    especial: document.getElementById("req-especial")
+};
+
+function atualizarRequisito(elemento, valido) {
+    elemento.classList.remove("valido", "invalido");
+
+    if (valido) {
+        elemento.classList.add("valido");
+        elemento.querySelector("span").textContent = "✓";
+    } else {
+        elemento.classList.add("invalido");
+        elemento.querySelector("span").textContent = "✕";
+    }
+}
+
+function validarSenha() {
+    const senha = campoSenha.value;
+
+    const validacoes = {
+        tamanho: senha.length >= 8,
+        maiuscula: /[A-Z]/.test(senha),
+        minuscula: /[a-z]/.test(senha),
+        numero: /[0-9]/.test(senha),
+        especial: /[^A-Za-z0-9]/.test(senha)
+    };
+
+    let quantidadeValidos = 0;
+
+    for (const requisito in validacoes) {
+        const valido = validacoes[requisito];
+
+        atualizarRequisito(requisitos[requisito], valido);
+
+        if (valido) {
+            quantidadeValidos++;
+        }
+    }
+
+    contadorSenha.textContent = `${senha.length}/64 caracteres`;
+
+    if (senha.length === 0) {
+        forcaSenha.textContent = "Força da senha: -";
+        forcaSenha.style.color = "";
+    } else if (quantidadeValidos <= 2) {
+        forcaSenha.textContent = "Força da senha: Fraca";
+        forcaSenha.style.color = "#dc2626";
+    } else if (quantidadeValidos < 5) {
+        forcaSenha.textContent = "Força da senha: Média";
+        forcaSenha.style.color = "#d97706";
+    } else {
+        forcaSenha.textContent = "Força da senha: Forte";
+        forcaSenha.style.color = "#15803d";
+    }
+
+    return quantidadeValidos === 5 && senha.length <= 64;
+}
+
+campoSenha.addEventListener("input", validarSenha);
+
+validarSenha();
+
+
     campoSenha.classList.remove("invalido");
     campoEmail.classList.remove("invalido");
 }
