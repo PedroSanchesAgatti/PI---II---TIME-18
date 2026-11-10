@@ -110,3 +110,45 @@
     margin-top: 5px;
     font-size: 13px;
 }
+
+
+
+/*Gabriel Castro */
+
+.requisito {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid;
+    font-size: 13px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.requisito.invalido {
+    background-color: #fee2e2;
+    border-color: #fca5a5;
+    color: #991b1b;
+}
+
+.requisito.valido {
+    background-color: #dcfce7;
+    border-color: #86efac;
+    color: #166534;
+}
+
+.requisito span {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.requisitos-senha {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+#forcaSenha {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 500;
+}
