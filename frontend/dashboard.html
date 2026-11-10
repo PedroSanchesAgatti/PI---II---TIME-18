@@ -3,161 +3,122 @@
     Tela: Dashboard
     Projeto Integrador II - Engenharia de Software - 2026
 -->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Dashboard</title>
-
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
-
 <body>
-
     <header class="cabecalho">
         <div class="logo">
             <h1>Sistema de Demandas</h1>
         </div>
-
         <nav class="menu">
             <a href="login.html">Login</a>
             <a href="dashboard.html">Dashboard</a>
             <a href="demandas.html">Demandas</a>
             <a href="cadastro-demanda.html">Nova Demanda</a>
             <a href="detalhes-demanda.html">Detalhes</a>
-            <button type="button" id="botao-sair">
-                Sair
-            </button>
+            <button type="button" id="botao-sair">Sair</button>
         </nav>
     </header>
 
     <main class="conteudo">
+        <div class="titulo-dashboard">
+            <div>
+                <h2>Dashboard</h2>
+                <p id="usuario-logado"></p>
+                <p class="descricao-pagina">Visão geral das demandas cadastradas no sistema.</p>
+            </div>
+            <button type="button" id="botao-atualizar" class="botao botao-salvar">Atualizar dados</button>
+        </div>
 
-        <h2>Dashboard</h2>
+        <p id="mensagem-erro-dashboard" class="mensagem-erro" role="alert" aria-live="polite" hidden></p>
+        <p id="mensagem-dashboard" class="mensagem-status" role="status" aria-live="polite"></p>
 
-        <p id="usuario-logado"></p>
-
-        <p class="descricao-pagina">
-            Visão geral das demandas cadastradas no sistema.
-        </p>
-
-        <!-- RESUMO DAS DEMANDAS -->
-
-        <section class="resumo">
-
+        <section class="resumo" aria-label="Resumo das demandas">
             <div class="card">
                 <span>Total de demandas</span>
                 <strong id="total-demandas">0</strong>
             </div>
-
             <div class="card">
                 <span>Demandas abertas</span>
                 <strong id="demandas-abertas">0</strong>
             </div>
-
             <div class="card">
                 <span>Em andamento</span>
                 <strong id="demandas-andamento">0</strong>
             </div>
-
             <div class="card">
                 <span>Concluídas</span>
                 <strong id="demandas-concluidas">0</strong>
             </div>
-
         </section>
 
-        <!-- INFORMAÇÕES -->
-
         <section class="painel-dashboard">
+            <div class="bloco-dashboard bloco-tabela">
+                <h3>Demandas recentes</h3>
+                <div class="tabela-responsiva">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Prioridade</th>
+                                <th>Status</th>
+                                <th>Responsável</th>
+                                <th>Criação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-demandas-recentes">
+                            <tr><td colspan="5">Carregando demandas...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <!-- DEMANDAS RECENTES -->
+            <div class="bloco-dashboard bloco-prioridades">
+                <h3>Demandas por prioridade</h3>
+                <div class="item-prioridade"><span>Crítica</span><strong id="prioridade-critica">0</strong></div>
+                <div class="item-prioridade"><span>Alta</span><strong id="prioridade-alta">0</strong></div>
+                <div class="item-prioridade"><span>Média</span><strong id="prioridade-media">0</strong></div>
+                <div class="item-prioridade"><span>Baixa</span><strong id="prioridade-baixa">0</strong></div>
+            </div>
+        </section>
 
-            <div class="bloco-dashboard">
-
-                <h3>Demandas Recentes</h3>
-
+        <section class="bloco-dashboard bloco-prazos">
+            <h3>Demandas próximas do prazo</h3>
+            <div class="tabela-responsiva">
                 <table>
                     <thead>
                         <tr>
                             <th>Título</th>
-                            <th>Prioridade</th>
+                            <th>Prazo</th>
                             <th>Status</th>
                             <th>Responsável</th>
                         </tr>
                     </thead>
-
-                    <tbody id="lista-demandas-recentes">
-                        <tr>
-                            <td colspan="4">Carregando demandas...</td>
-                        </tr>
+                    <tbody id="lista-proximas-prazo">
+                        <tr><td colspan="4">Carregando prazos...</td></tr>
                     </tbody>
                 </table>
-
             </div>
-
-            <!-- RESUMO POR PRIORIDADE -->
-
-            <div class="bloco-dashboard">
-
-                <h3>Demandas por Prioridade</h3>
-
-                <div class="item-prioridade">
-                    <span>Crítica</span>
-                    <strong id="prioridade-critica">0</strong>
-                </div>
-
-                <div class="item-prioridade">
-                    <span>Alta</span>
-                    <strong id="prioridade-alta">0</strong>
-                </div>
-
-                <div class="item-prioridade">
-                    <span>Média</span>
-                    <strong id="prioridade-media">0</strong>
-                </div>
-
-                <div class="item-prioridade">
-                    <span>Baixa</span>
-                    <strong id="prioridade-baixa">0</strong>
-                </div>
-
-            </div>
-
         </section>
-
-        <!-- ATALHOS -->
 
         <section class="atalhos">
-
             <h3>Acesso rápido</h3>
-
             <div class="botoes-dashboard">
-
-                <a href="cadastro-demanda.html" class="botao botao-salvar">
-                    Nova Demanda
-                </a>
-
-                <a href="demandas.html" class="botao botao-cancelar">
-                    Ver Demandas
-                </a>
-
+                <a href="cadastro-demanda.html" class="botao botao-salvar">Nova Demanda</a>
+                <a href="demandas.html" class="botao botao-cancelar">Ver Demandas</a>
             </div>
-
         </section>
-
     </main>
-    <!-- Feito por: Pedro Henrique Sanches o autenticador -->
+
+    <!-- Autenticação desenvolvida por Pedro Henrique Sanches. -->
     <script src="js/auth.js"></script>
     <script src="js/dashboard.js"></script>
-
-
-
 </body>
-
 </html>
